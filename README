@@ -1,0 +1,3 @@
+use Teng::Schema::Dumper::InflateColumn::DateTime;
+my $schema = Teng::Schema::Dumper::InflateColumn::DateTime->dump(dbh => $dbh, namespace => 'MyApp::DB', inflate_datetime => '_at');
+
