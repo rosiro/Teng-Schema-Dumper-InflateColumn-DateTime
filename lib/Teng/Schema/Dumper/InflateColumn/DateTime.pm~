@@ -30,15 +30,15 @@ sub dump {
                 $ret .= sprintf("        '%s',\n", $col->name);
             }
         }
+        $ret .= "deflate qr/".$inflate_datetime."/ => sub {\n";
+        $ret .= "DateTime::Format::MySQL->format_datetime(shift);\n";
+        $ret .= "};\n";
+
+        $ret .= "inflate qr/".$inflate_datetime."/ => sub {\n";
+        $ret .= "DateTime::Format::MySQL->parse_datetime(shift);\n";
+        $ret .= "};\n";
+
         $ret .= "    );\n";
-        $ret .= "    deflate qr/".$inflate_datetime."/ => sub {\n";
-        $ret .= "        DateTime::Format::MySQL->format_datetime(shift);\n";
-        $ret .= "    };\n";
-
-        $ret .= "    inflate qr/".$inflate_datetime."/ => sub {\n";
-        $ret .= "        DateTime::Format::MySQL->parse_datetime(shift);\n";
-        $ret .= "    };\n";
-
         $ret .= "};\n\n";
     }
     $ret .= "1;\n";
