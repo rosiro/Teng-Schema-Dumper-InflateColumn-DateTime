@@ -31,11 +31,10 @@ sub dump {
             }
         }
         $ret .= "    );\n";
-        $ret .= "    deflate qr/".$inflate_datetime."/ => sub {\n";
+        $ret .= "    deflate qr{^(?:".$inflate_datetime.")$} => sub {\n";
         $ret .= "        DateTime::Format::MySQL->format_datetime(shift);\n";
         $ret .= "    };\n";
-
-        $ret .= "    inflate qr/".$inflate_datetime."/ => sub {\n";
+        $ret .= "    inflate qr{^(?:".$inflate_datetime.")$} => sub {\n";
         $ret .= "        DateTime::Format::MySQL->parse_datetime(shift);\n";
         $ret .= "    };\n";
 
