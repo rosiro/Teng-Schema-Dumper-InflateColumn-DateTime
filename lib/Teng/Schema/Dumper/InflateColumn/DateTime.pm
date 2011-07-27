@@ -17,7 +17,7 @@ sub dump {
 
     my $ret = "package ${namespace}::Schema;\n";
     $ret .= "use Teng::Schema::Declare;\n";
-    $ret .= "use DateTime::Format::MySQL;\n";
+    $ret .= "use Teng::Schema::Declare::Columns::DateTime;\n";
     for my $table_info (sort { $a->name cmp $b->name } $inspector->tables) {
         $ret .= "table {\n";
         $ret .= sprintf("    name '%s';\n", $table_info->name);
@@ -31,13 +31,7 @@ sub dump {
             }
         }
         $ret .= "    );\n";
-        $ret .= "    deflate qr{^(?:".$inflate_datetime.")$} => sub {\n";
-        $ret .= "        DateTime::Format::MySQL->format_datetime(shift);\n";
-        $ret .= "    };\n";
-        $ret .= "    inflate qr{^(?:".$inflate_datetime.")$} => sub {\n";
-        $ret .= "        DateTime::Format::MySQL->parse_datetime(shift);\n";
-        $ret .= "    };\n";
-
+	$ret .= "    datetime_columns qw(".$inflate_datetime.");\n";
         $ret .= "};\n\n";
     }
     $ret .= "1;\n";
